@@ -1,10 +1,11 @@
-import pandas as pd
 import pickle
+
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split
 
 # 데이터 로드
 benign = pd.read_csv("data/benign_features.csv")

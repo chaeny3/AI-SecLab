@@ -1,7 +1,9 @@
-import os
-import glob
 import csv
+import glob
+import os
+
 from analyzer.pe_analyzer import analyze_pe
+
 
 def extract_features(pe_result):
     sections = pe_result.get("sections", [])
@@ -30,7 +32,7 @@ def collect_benign(max_files=150):
                 feat["label"] = 0
                 samples.append(feat)
                 print(f"[+] {result['file_name']}")
-        except:
+        except Exception:
             pass
     return samples
 

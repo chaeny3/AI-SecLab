@@ -1,6 +1,8 @@
-import pefile
 import math
 import os
+
+import pefile
+
 
 def calculate_entropy(data):
     if not data:

@@ -1,8 +1,10 @@
-from flask import Flask, request, render_template, jsonify
-import pickle
-import pandas as pd
-from analyzer.pe_analyzer import analyze_pe
 import os
+import pickle
+
+import pandas as pd
+from flask import Flask, jsonify, render_template, request
+
+from analyzer.pe_analyzer import analyze_pe
 
 app = Flask(__name__)
 
@@ -52,4 +54,4 @@ def analyze():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=os.environ.get("FLASK_DEBUG") == "1")
