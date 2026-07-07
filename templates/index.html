@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AI-SecLab</title>
+    <style>
+        body { font-family: monospace; background: #0d1117; color: #c9d1d9; max-width: 800px; margin: 50px auto; padding: 20px; }
+        h1 { color: #58a6ff; }
+        input[type=file] { margin: 20px 0; }
+        button { background: #238636; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; }
+        #result { margin-top: 30px; padding: 20px; border: 1px solid #30363d; border-radius: 6px; display: none; }
+        .악성 { color: #f85149; font-size: 24px; font-weight: bold; }
+        .정상 { color: #3fb950; font-size: 24px; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        td, th { padding: 8px; border: 1px solid #30363d; text-align: left; }
+        th { background: #161b22; }
+    </style>
+</head>
+<body>
+    <h1>🔐 AI-SecLab PE 분석기</h1>
+    <p>PE 파일(.exe)을 업로드하면 악성코드 여부를 판단합니다.</p>
+    <input type="file" id="fileInput" accept=".exe">
+    <button onclick="analyze()">분석 시작</button>
+    <div id="result"></div>
+
+    <script>
+    async function analyze() {
+        const file = document.getElementById("fileInput").files[0];
+        if (!file) { alert("파일을 선택하세요"); return; }
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch("/analyze", { method: "POST", body: form });
+        const data = await res.json();
+        const div = document.getElementById("result");
+        div.style.display = "block";
+        if (data.error) { div.innerHTML = `<p style="color:red">오류: ${data.error}</p>`; return; }
+        div.innerHTML = `
+            <h2>${data.filename}</h2>
+            <p>판정: <span class="${data.prediction}">${data.prediction}</span></p>
+            <p>악성 확률: <strong>${data.malware_prob}%</strong></p>
+            <h3>특징</h3>
+            <table>
+                <tr><th>항목</th><th>값</th></tr>
+                ${Object.entries(data.features).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("")}
+            </table>`;
+    }
+    </script>
+</body>
+</html>
