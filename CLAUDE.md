@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+응답은 한국어로 해줘.
+
 ## Project
 
 Flask web app that classifies uploaded PE (`.exe`) files as malicious or benign using a RandomForest model trained on PE structural features (entropy, sections, imports). UI strings and JSON error messages are in Korean.
